@@ -3,3 +3,4 @@ PyMySQL
 google-genai
 python-dotenv
 Werkzeug
+gunicorn

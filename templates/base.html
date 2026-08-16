@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Complaint System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('home') }}" style="text-decoration:none">
+            <div class="logo">S</div>
+            <div><b>SmartResolve</b><span>Complaint System</span></div>
+        </a>
+        <nav class="nav">
+            {% if session.user_name %}
+                <div class="label">MAIN</div>
+                <a href="{{ url_for('home') }}">Dashboard</a>
+                <a href="{{ url_for('submit') }}">Submit Complaint</a>
+                <a href="{{ url_for('my_complaints') }}">My Complaints</a>
+                {% if session.user_role == 'staff' %}
+                    <div class="label">STAFF</div>
+                    <a href="{{ url_for('dashboard') }}">Staff Dashboard</a>
+                    <a href="{{ url_for('analytics') }}">Analytics</a>
+                {% endif %}
+                <div class="label">ACCOUNT</div>
+                <a href="{{ url_for('profile') }}">My Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <div class="label">MENU</div>
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </nav>
+        {% if session.user_name %}
+        <div class="side-foot">Signed in as {{ session.user_role }}</div>
+        {% endif %}
+    </aside>
+
+    <div class="main">
+        <div class="topbar">
+            <div>
+                <h1>{% block pagetitle %}Smart Complaint System{% endblock %}</h1>
+                <div class="sub">{% block pagesub %}{% endblock %}</div>
+            </div>
+            {% if session.user_name %}
+            <div class="user">
+                <div class="av">{{ session.user_name[0]|upper }}</div>
+                <div><b>{{ session.user_name }}</b><span>{{ session.user_role }}</span></div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+{% block pagetitle %}Analytics{% endblock %}
+{% block pagesub %}Trends across all complaints{% endblock %}
+{% block content %}
+<div class="panel"><h2>Complaints by Category</h2><div class="cap">All time</div><canvas id="categoryChart"></canvas></div>
+<div class="grid2">
+    <div class="panel"><h2>By Urgency</h2><div class="cap">All time</div><canvas id="urgencyChart"></canvas></div>
+    <div class="panel"><h2>By Status</h2><div class="cap">All time</div><canvas id="statusChart"></canvas></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+<script>
+const categoryLabels={{ category_labels|tojson }},categoryValues={{ category_values|tojson }};
+const urgencyLabels={{ urgency_labels|tojson }},urgencyValues={{ urgency_values|tojson }};
+const statusLabels={{ status_labels|tojson }},statusValues={{ status_values|tojson }};
+new Chart(document.getElementById('categoryChart'),{type:'bar',data:{labels:categoryLabels,datasets:[{label:'Complaints',data:categoryValues,backgroundColor:'#2563eb'}]},options:{scales:{y:{beginAtZero:true}}}});
+new Chart(document.getElementById('urgencyChart'),{type:'doughnut',data:{labels:urgencyLabels,datasets:[{data:urgencyValues,backgroundColor:['#16a34a','#d97706','#dc2626']}]}});
+new Chart(document.getElementById('statusChart'),{type:'doughnut',data:{labels:statusLabels,datasets:[{data:statusValues,backgroundColor:['#2563eb','#d97706','#16a34a']}]}});
+</script>
+{% endblock %}

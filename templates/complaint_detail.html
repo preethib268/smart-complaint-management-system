@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Complaint #{{ complaint.id }}{% endblock %}
+{% block pagetitle %}Complaint #{{ complaint.id }}{% endblock %}
+{% block pagesub %}Submitted on {{ complaint.created_at }}{% endblock %}
+{% block content %}
+<div class="panel">
+    <h2>Complaint Details</h2>
+    <div class="cap">Full information for this complaint</div>
+    <p style="margin:14px 0"><strong>Complaint:</strong><br>{{ complaint.complaint_text }}</p>
+    <p style="margin:10px 0"><strong>Category:</strong> {{ complaint.category }}</p>
+    <p style="margin:10px 0"><strong>Urgency:</strong>
+        {% if complaint.urgency == 'High' %}<span class="u-high">High</span>
+        {% elif complaint.urgency == 'Medium' %}<span class="u-med">Medium</span>
+        {% elif complaint.urgency == 'Low' %}<span class="u-low">Low</span>
+        {% else %}{{ complaint.urgency }}{% endif %}
+    </p>
+    <p style="margin:10px 0"><strong>Status:</strong>
+        {% if complaint.status == 'Open' %}<span class="pill p-open">Open</span>
+        {% elif complaint.status == 'In Progress' %}<span class="pill p-prog">In Progress</span>
+        {% elif complaint.status == 'Resolved' %}<span class="pill p-res">Resolved</span>
+        {% else %}{{ complaint.status }}{% endif %}
+    </p>
+    <p style="margin:14px 0"><strong>AI Reply:</strong><br>{{ complaint.ai_reply }}</p>
+    {% if complaint.attachment %}
+        <p style="margin:10px 0"><strong>Attachment:</strong> <a href="{{ url_for('uploaded_file', filename=complaint.attachment) }}" target="_blank">View attachment</a></p>
+    {% else %}
+        <p style="margin:10px 0"><strong>Attachment:</strong> None</p>
+    {% endif %}
+    <br>
+    {% if session.user_role == 'staff' %}
+        <a class="btn" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    {% else %}
+        <a class="btn" href="{{ url_for('my_complaints') }}">Back to My Complaints</a>
+    {% endif %}
+</div>
+{% endblock %}

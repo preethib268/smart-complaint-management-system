@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Submit a Complaint{% endblock %}
+{% block pagetitle %}Submit a Complaint{% endblock %}
+{% block pagesub %}Describe your issue — it will be routed automatically{% endblock %}
+{% block content %}
+<div class="formbox">
+    <h1>New Complaint</h1>
+    <div class="cap">Our AI will sort and route it for you</div>
+    {% if error %}<div class="msg-error">{{ error }}</div>{% endif %}
+    <form action="{{ url_for('submit') }}" method="POST" enctype="multipart/form-data">
+        <label>Describe your complaint</label>
+        <textarea name="complaint_text" rows="5" required></textarea>
+        <label>Attach a photo or document (optional)</label>
+        <input type="file" name="attachment" accept=".png,.jpg,.jpeg,.gif,.pdf">
+        <br><button class="btn" type="submit">Submit Complaint</button>
+    </form>
+</div>
+{% endblock %}

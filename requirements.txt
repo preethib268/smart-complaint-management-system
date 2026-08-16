@@ -1,0 +1,5 @@
+Flask
+PyMySQL
+google-genai
+python-dotenv
+Werkzeug

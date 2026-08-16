@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block pagetitle %}Login{% endblock %}
+{% block pagesub %}Access your account{% endblock %}
+{% block content %}
+<div class="formbox">
+    <h1>Welcome back</h1>
+    <div class="cap">Sign in to continue</div>
+    {% if error %}<div class="msg-error">{{ error }}</div>{% endif %}
+    <form action="{{ url_for('login') }}" method="POST">
+        <label>Email</label>
+        <input type="email" name="email" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
+        <br><button class="btn" type="submit">Login</button>
+    </form>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+</div>
+{% endblock %}

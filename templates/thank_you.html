@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Thank You{% endblock %}
+{% block pagetitle %}Thank You{% endblock %}
+{% block pagesub %}Your complaint has been submitted{% endblock %}
+{% block content %}
+<div class="formbox" style="text-align:center">
+    <div style="font-size:44px;margin-bottom:10px">✓</div>
+    <h1>Complaint Submitted</h1>
+    <div class="cap">Our AI has sorted and routed it automatically.</div>
+    <a class="btn" href="{{ url_for('submit') }}">Submit Another</a>
+    <a class="btn btn-grey" href="{{ url_for('my_complaints') }}">View My Complaints</a>
+</div>
+{% endblock %}

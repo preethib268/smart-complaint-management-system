@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block pagetitle %}My Profile{% endblock %}
+{% block pagesub %}Manage your account{% endblock %}
+{% block content %}
+{% if message %}<div class="msg-success" style="max-width:480px;margin:0 auto 14px">{{ message }}</div>{% endif %}
+{% if error %}<div class="msg-error" style="max-width:480px;margin:0 auto 14px">{{ error }}</div>{% endif %}
+<div class="formbox">
+    <h1>Account</h1>
+    <div class="cap">Your details</div>
+    <p style="margin:8px 0"><strong>Email:</strong> {{ profile.email }}</p>
+    <p style="margin:8px 0"><strong>Role:</strong> {{ profile.role }}</p>
+</div>
+<div class="formbox">
+    <h1 style="font-size:18px">Update Name</h1>
+    <form action="{{ url_for('profile') }}" method="POST">
+        <input type="hidden" name="action" value="update_name">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ profile.name }}" required>
+        <button class="btn" type="submit">Update Name</button>
+    </form>
+</div>
+<div class="formbox">
+    <h1 style="font-size:18px">Change Password</h1>
+    <form action="{{ url_for('profile') }}" method="POST">
+        <input type="hidden" name="action" value="change_password">
+        <label>Current password</label>
+        <input type="password" name="current_password" required>
+        <label>New password</label>
+        <input type="password" name="new_password" required>
+        <button class="btn" type="submit">Change Password</button>
+    </form>
+</div>
+{% endblock %}

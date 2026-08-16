@@ -1,0 +1,12 @@
+# Environment variables (keeps your API key private)
+.env
+
+# Virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Uploaded files
+uploads/

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block pagetitle %}Welcome{% if session.user_name %}, {{ session.user_name }}{% endif %}{% endblock %}
+{% block pagesub %}Smart Complaint Management System{% endblock %}
+{% block content %}
+<div class="menu-grid">
+    {% if session.user_name %}
+        <a class="menu-card" href="{{ url_for('submit') }}">
+            <div class="mc-ic">✎</div>
+            <div class="mc-title">Submit a Complaint</div>
+            <div class="mc-desc">Raise a new issue, routed automatically by AI</div>
+        </a>
+        <a class="menu-card" href="{{ url_for('my_complaints') }}">
+            <div class="mc-ic">📋</div>
+            <div class="mc-title">My Complaints</div>
+            <div class="mc-desc">Track the status of your submissions</div>
+        </a>
+        <a class="menu-card" href="{{ url_for('profile') }}">
+            <div class="mc-ic">👤</div>
+            <div class="mc-title">My Profile</div>
+            <div class="mc-desc">Update your details or password</div>
+        </a>
+        {% if session.user_role == 'staff' %}
+        <a class="menu-card" href="{{ url_for('dashboard') }}">
+            <div class="mc-ic">◧</div>
+            <div class="mc-title">Staff Dashboard</div>
+            <div class="mc-desc">Manage and resolve all complaints</div>
+        </a>
+        <a class="menu-card" href="{{ url_for('analytics') }}">
+            <div class="mc-ic">📊</div>
+            <div class="mc-title">Analytics</div>
+            <div class="mc-desc">Trends and charts across complaints</div>
+        </a>
+        {% endif %}
+    {% else %}
+        <a class="menu-card" href="{{ url_for('login') }}">
+            <div class="mc-ic">→</div>
+            <div class="mc-title">Login</div>
+            <div class="mc-desc">Access your account</div>
+        </a>
+        <a class="menu-card" href="{{ url_for('register') }}">
+            <div class="mc-ic">+</div>
+            <div class="mc-title">Register</div>
+            <div class="mc-desc">Create a new account</div>
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

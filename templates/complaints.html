@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}All Complaints{% endblock %}
+{% block pagetitle %}All Complaints{% endblock %}
+{% block pagesub %}Total: {{ complaints|length }}{% endblock %}
+{% block content %}
+<div class="panel">
+    <table>
+        <tr><th>ID</th><th>Complaint</th><th>Category</th><th>Urgency</th><th>Status</th></tr>
+        {% for c in complaints %}
+        <tr>
+            <td class="cid">#{{ c.id }}</td>
+            <td>{{ c.complaint_text }}</td>
+            <td>{{ c.category }}</td>
+            <td>{{ c.urgency }}</td>
+            <td>
+                {% if c.status == 'Open' %}<span class="pill p-open">Open</span>
+                {% elif c.status == 'In Progress' %}<span class="pill p-prog">In Progress</span>
+                {% elif c.status == 'Resolved' %}<span class="pill p-res">Resolved</span>
+                {% else %}{{ c.status }}{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

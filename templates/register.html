@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block pagetitle %}Create Account{% endblock %}
+{% block pagesub %}Register to submit and track complaints{% endblock %}
+{% block content %}
+<div class="formbox">
+    <h1>Create an account</h1>
+    <div class="cap">It only takes a moment</div>
+    {% if error %}<div class="msg-error">{{ error }}</div>{% endif %}
+    <form action="{{ url_for('register') }}" method="POST">
+        <label>Name</label>
+        <input type="text" name="name" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
+        <br><button class="btn" type="submit">Register</button>
+    </form>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</div>
+{% endblock %}

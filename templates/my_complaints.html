@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My Complaints{% endblock %}
+{% block pagetitle %}My Complaints{% endblock %}
+{% block pagesub %}You have submitted {{ complaints|length }} complaint(s){% endblock %}
+{% block content %}
+<div class="panel">
+    <h2>Your Complaints</h2>
+    <div class="cap">Track the status of each submission</div>
+    {% if complaints|length == 0 %}
+        <p style="color:var(--muted)">You haven't submitted any complaints yet.</p>
+        <a class="btn" href="{{ url_for('submit') }}">Submit your first complaint</a>
+    {% else %}
+    <table>
+        <tr><th>ID</th><th>Complaint</th><th>Category</th><th>Urgency</th><th>Status</th></tr>
+        {% for c in complaints %}
+        <tr>
+            <td><a class="cid" href="{{ url_for('complaint_detail', complaint_id=c.id) }}">#{{ c.id }}</a></td>
+            <td>{{ c.complaint_text }}</td>
+            <td>{{ c.category }}</td>
+            <td>
+                {% if c.urgency == 'High' %}<span class="u-high">High</span>
+                {% elif c.urgency == 'Medium' %}<span class="u-med">Medium</span>
+                {% elif c.urgency == 'Low' %}<span class="u-low">Low</span>
+                {% else %}{{ c.urgency }}{% endif %}
+            </td>
+            <td>
+                {% if c.status == 'Open' %}<span class="pill p-open">Open</span>
+                {% elif c.status == 'In Progress' %}<span class="pill p-prog">In Progress</span>
+                {% elif c.status == 'Resolved' %}<span class="pill p-res">Resolved</span>
+                {% else %}{{ c.status }}{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Staff Dashboard{% endblock %}
+{% block pagetitle %}Dashboard{% endblock %}
+{% block pagesub %}Overview of all complaints{% endblock %}
+{% block content %}
+
+<div class="kpis">
+    <div class="kpi"><div class="ic ic-blue">📥</div><div class="n">{{ counts['Open'] }}</div><div class="l">Open</div></div>
+    <div class="kpi"><div class="ic ic-amber">⏳</div><div class="n">{{ counts['In Progress'] }}</div><div class="l">In Progress</div></div>
+    <div class="kpi"><div class="ic ic-green">✓</div><div class="n">{{ counts['Resolved'] }}</div><div class="l">Resolved</div></div>
+    <div class="kpi"><div class="ic ic-red">⚑</div><div class="n">{{ total }}</div><div class="l">Showing</div></div>
+    <div class="ai-card">
+        <div class="tag">✦ AI-POWERED</div>
+        <h3>Smart Routing</h3>
+        <div class="big">16 Categories</div>
+        <p>Every complaint is automatically classified and routed by AI.</p>
+    </div>
+</div>
+
+<div class="panel">
+    <h2>Filter Complaints</h2>
+    <div class="cap">Narrow down the list</div>
+    <form action="{{ url_for('dashboard') }}" method="GET" class="filterbar">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for cat in ['IT','Hostel','Mess/Canteen','Examination','Academics','Library','Transport','Maintenance','Medical/Health','Counselling/Wellbeing','Accounts/Fees','Placement/Training','Sports/Gym','Security','Administration','Other'] %}
+            <option value="{{ cat }}" {% if filter_category == cat %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <select name="urgency">
+            <option value="">All Urgency</option>
+            {% for u in ['Low','Medium','High'] %}
+            <option value="{{ u }}" {% if filter_urgency == u %}selected{% endif %}>{{ u }}</option>
+            {% endfor %}
+        </select>
+        <select name="status">
+            <option value="">All Status</option>
+            {% for st in ['Open','In Progress','Resolved'] %}
+            <option value="{{ st }}" {% if filter_status == st %}selected{% endif %}>{{ st }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn" type="submit" style="margin-top:0">Filter</button>
+        <a class="btn btn-grey" href="{{ url_for('dashboard') }}" style="margin-top:0">Clear</a>
+    </form>
+</div>
+
+<div class="panel">
+    <h2>All Complaints</h2>
+    <div class="cap">Automatically sorted and routed by AI</div>
+    <table>
+        <tr><th>ID</th><th>Complaint</th><th>Category</th><th>Urgency</th><th>Status</th><th>Update</th></tr>
+        {% for c in complaints %}
+        <tr>
+            <td><a class="cid" href="{{ url_for('complaint_detail', complaint_id=c.id) }}">#{{ c.id }}</a></td>
+            <td>{{ c.complaint_text }}</td>
+            <td>{{ c.category }}</td>
+            <td>
+                {% if c.urgency == 'High' %}<span class="u-high">High</span>
+                {% elif c.urgency == 'Medium' %}<span class="u-med">Medium</span>
+                {% elif c.urgency == 'Low' %}<span class="u-low">Low</span>
+                {% else %}{{ c.urgency }}{% endif %}
+            </td>
+            <td>
+                {% if c.status == 'Open' %}<span class="pill p-open">Open</span>
+                {% elif c.status == 'In Progress' %}<span class="pill p-prog">In Progress</span>
+                {% elif c.status == 'Resolved' %}<span class="pill p-res">Resolved</span>
+                {% else %}{{ c.status }}{% endif %}
+            </td>
+            <td>
+                <form action="{{ url_for('update_status') }}" method="POST" style="display:flex;gap:6px;margin:0">
+                    <input type="hidden" name="complaint_id" value="{{ c.id }}">
+                    <select name="status" style="padding:6px;border:1px solid var(--line);border-radius:8px;font-size:12px">
+                        <option value="Open" {% if c.status == 'Open' %}selected{% endif %}>Open</option>
+                        <option value="In Progress" {% if c.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                        <option value="Resolved" {% if c.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                    </select>
+                    <button class="btn" type="submit" style="margin-top:0;padding:6px 12px;font-size:12px">Save</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

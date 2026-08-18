@@ -24,6 +24,7 @@ app.secret_key = "change-this-to-any-long-random-string-12345"
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5 MB max file size
 
 # Create the Gemini client once, when the app starts
@@ -36,10 +37,11 @@ ai_client = genai.Client(api_key=api_key)
 
 def get_db_connection():
     return pymysql.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='complaint_system',
+        host=os.getenv('MYSQLHOST', 'localhost'),
+        user=os.getenv('MYSQLUSER', 'root'),
+        password=os.getenv('MYSQLPASSWORD', ''),
+        database=os.getenv('MYSQLDATABASE', 'complaint_system'),
+        port=int(os.getenv('MYSQLPORT', 3306)),
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
     )
@@ -481,3 +483,5 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     app.run(debug=True)
+else:
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)

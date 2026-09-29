@@ -145,7 +145,7 @@ def login():
             connection.close()
 
         # Check the user exists AND the password matches the stored hash
-        if user and check_password_hash(user['password_hash'], password):
+        if user and check_password_hash(user["password_hash"], password):
             session['user_id'] = user['id']
             session['user_name'] = user['name']
             session['user_role'] = user['role']

@@ -37,14 +37,13 @@ ai_client = genai.Client(api_key=api_key)
 
 def get_db_connection():
     return pymysql.connect(
-        host=os.getenv('MYSQLHOST', 'localhost'),
-        user=os.getenv('MYSQLUSER', 'root'),
-        password=os.getenv('MYSQLPASSWORD', ''),
-        database=os.getenv('MYSQLDATABASE', 'complaint_system'),
-        port=int(os.getenv('MYSQLPORT', 3306)),
-        charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
-    )
+    host=os.getenv('MYSQLHOST', 'localhost'),
+    user=os.getenv('MYSQLUSER', 'root'),
+    password=os.getenv('MYSQLPASSWORD', ''),
+    database=os.getenv('MYSQLDATABASE', 'complaint_system'),
+    port=int(os.getenv('MYSQLPORT', 3306)),
+    ssl={"ssl": {}}
+)
 
 
 # Check if a file's extension is allowed

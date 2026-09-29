@@ -18,7 +18,7 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
 app = Flask(__name__)
-app.secret_key = "change-this-to-any-long-random-string-12345"
+app.secret_key = os.getenv("SECRET_KEY")
 
 # File upload settings
 UPLOAD_FOLDER = '/tmp/uploads'
